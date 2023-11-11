@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/kamogelosekhukhune777/url-shortner/data"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSimpleRedirection(t *testing.T) {
@@ -11,5 +12,6 @@ func TestSimpleRedirection(t *testing.T) {
 
 	want := `http://go.dev/`
 	got, err := store.GetLinkByShort(want)
-	assert.No(t, err)
+	assert.NoError(t, err)
+	assert.Equal(t, want, got.FullURL)
 }

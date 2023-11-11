@@ -1,7 +1,9 @@
 package data
 
-var newID, _ = nonoid.Standard(25)
-var newShort, _ = nonoid.CustomASCII("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuv", 8)
+import "github.com/jaevor/go-nanoid"
+
+var newID, _ = nanoid.Custom(25)
+var newShort, _ = nanoid.CustomASCII("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuv", 8)
 
 // all of our models
 type Link struct {
