@@ -8,7 +8,7 @@ type URLMapping struct {
 }
 
 type URLRepository interface {
-	Gave(mapping *URLMapping) error
+	Save(mapping *URLMapping) error
 	Get(shortURL string) (*URLMapping, error)
 	Delete(shortURL string) error
 	Update(mapping *URLMapping)

@@ -39,7 +39,6 @@ func (db *InMemoryDB) Get(shortURL string) (*models.URLMapping, error) {
 }
 
 func (db *InMemoryDB) Delete(shortURL string) error {
-
 	db.Lock()
 	defer db.Unlock()
 	if _, exists := db.data[shortURL]; !exists {
