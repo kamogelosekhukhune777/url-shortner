@@ -11,5 +11,5 @@ type URLRepository interface {
 	Save(mapping *URLMapping) error
 	Get(shortURL string) (*URLMapping, error)
 	Delete(shortURL string) error
-	Update(mapping *URLMapping)
+	Update(mapping *URLMapping) error
 }
