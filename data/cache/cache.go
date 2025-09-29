@@ -112,3 +112,15 @@ func (c *Cache) Get(ctx context.Context, key string, dest interface{}) error {
 
 	return nil
 }
+
+// Del deletes one or more keys from the cache.
+// It returns an error if the underlying Redis operation fails, but it's not
+// considered an error if the keys simply do not exist (Redis DEL semantics).
+func (c *Cache) Del(ctx context.Context, keys ...string) error {
+	// The DEL command returns the number of keys removed. It does not return an error
+	// if a key does not exist. We only check for an underlying client/network error.
+	if err := c.redisClient.Del(ctx, keys...).Err(); err != nil {
+		return fmt.Errorf("redis DEL command failed: %w", err)
+	}
+	return nil
+}
