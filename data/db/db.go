@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/kamogelosekhukhune777/url-shortner/service"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -81,7 +80,7 @@ func (r *Repository) Close() error {
 // ----- CRUD Operations -----
 
 // Create inserts a new ShortURL record.
-func (r *Repository) Create(ctx context.Context, urlModel *service.ShortURL) (*service.ShortURL, error) {
+func (r *Repository) Create(ctx context.Context, urlModel *ShortURL) (*ShortURL, error) {
 	if err := r.db.WithContext(ctx).Create(urlModel).Error; err != nil {
 		return nil, fmt.Errorf("failed to create ShortURL: %w", err)
 	}
@@ -90,7 +89,7 @@ func (r *Repository) Create(ctx context.Context, urlModel *service.ShortURL) (*s
 }
 
 // Update updates an existing ShortURL record by its short code.
-func (r *Repository) Update(ctx context.Context, shortCode string, urlModel *service.ShortURL) error {
+func (r *Repository) Update(ctx context.Context, shortCode string, urlModel *ShortURL) error {
 	result := r.db.WithContext(ctx).
 		Model(urlModel).
 		Where("short_code = ?", shortCode).
@@ -111,7 +110,7 @@ func (r *Repository) Update(ctx context.Context, shortCode string, urlModel *ser
 func (r *Repository) Delete(ctx context.Context, shortCode string) error {
 	result := r.db.WithContext(ctx).
 		Where("short_code = ?", shortCode).
-		Delete(&service.ShortURL{})
+		Delete(&ShortURL{})
 
 	if result.Error != nil {
 		return fmt.Errorf("failed to delete ShortURL with code '%s': %w", shortCode, result.Error)
@@ -130,7 +129,7 @@ func (r *Repository) Exists(ctx context.Context, shortCode string) (bool, error)
 	var count int64
 
 	err := r.db.WithContext(ctx).
-		Model(&service.ShortURL{}).
+		Model(&ShortURL{}).
 		Where("short_code = ?", shortCode).
 		Count(&count).
 		Error
@@ -143,8 +142,8 @@ func (r *Repository) Exists(ctx context.Context, shortCode string) (bool, error)
 }
 
 // GetByShortCode retrieves a ShortURL record by its short code.
-func (r *Repository) GetByShortCode(ctx context.Context, shortCode string) (*service.ShortURL, error) {
-	model := &service.ShortURL{}
+func (r *Repository) GetByShortCode(ctx context.Context, shortCode string) (*ShortURL, error) {
+	model := &ShortURL{}
 	err := r.db.WithContext(ctx).
 		Where("short_code = ?", shortCode).
 		First(model).
@@ -163,7 +162,7 @@ func (r *Repository) GetByShortCode(ctx context.Context, shortCode string) (*ser
 // IncrementAccessCount atomically increments the access_count field.
 func (r *Repository) IncrementAccessCount(ctx context.Context, shortCode string) error {
 	result := r.db.WithContext(ctx).
-		Model(&service.ShortURL{}).
+		Model(&ShortURL{}).
 		Where("short_code = ?", shortCode).
 		Update("access_count", gorm.Expr("access_count + ?", 1))
 
