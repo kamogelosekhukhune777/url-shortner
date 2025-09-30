@@ -4,6 +4,8 @@ go 1.24.4
 
 require (
 	github.com/go-redis/redis/v8 v8.11.5
+	github.com/google/uuid v1.6.0
+	github.com/mitchellh/mapstructure v1.5.0
 	gorm.io/driver/postgres v1.6.0
 	gorm.io/gorm v1.31.0
 )
